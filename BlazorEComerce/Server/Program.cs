@@ -1,13 +1,16 @@
 global using BlazorEComerce.Shared;
 global using BlazorEComerce.Shared.Models;
-
+global using Microsoft.EntityFrameworkCore;
+global using Npgsql;
+global using BlazorEComerce.Server.Data;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                  options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+   builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
