@@ -1,3 +1,6 @@
+global using BlazorEComerce.Shared;
+global using BlazorEComerce.Shared.Models;
+
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,3 +37,4 @@ app.MapControllers();
 app.MapFallbackToFile("index.html");
 
 app.Run();
+
