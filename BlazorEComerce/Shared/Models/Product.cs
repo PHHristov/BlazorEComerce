@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorEComerce.Shared.Models
 {
-    internal class Product
+    public class Product
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;

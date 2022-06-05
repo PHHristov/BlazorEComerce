@@ -1,3 +1,6 @@
+global using BlazorEComerce.Shared;
+global using BlazorEComerce.Shared.Models;
+
 using BlazorEComerce.Client;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
