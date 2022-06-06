@@ -1,7 +1,13 @@
-﻿@inject HttpClient Http
+﻿@inject IProductService productService
 
-<ul class="list-unstyled">
-    @foreach (var product in Products)
+@if(productService.Products == null || productService.Products.Count == 0)
+{
+    <span>Loading Products...</span>
+}
+else
+{
+    <ul class="list-unstyled">
+    @foreach (var product in productService.Products)
     {
         <li class="media my-3">
             <div class="media-img-wrapper mr-2">
@@ -21,3 +27,5 @@
         </li>
     }
 </ul>
+}
+

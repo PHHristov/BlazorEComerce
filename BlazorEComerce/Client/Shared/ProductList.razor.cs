@@ -7,11 +7,7 @@ namespace BlazorEComerce.Client.Shared
 
         protected override async Task OnInitializedAsync()
         {
-            var result = await Http.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/Product");
-            if (result != null && result.Data != null)
-            {
-                Products = result.Data;
-            }
+            await productService.GetProducts();
         }
 
     }
