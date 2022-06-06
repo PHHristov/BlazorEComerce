@@ -3,7 +3,10 @@ global using BlazorEComerce.Shared.Models;
 global using Microsoft.EntityFrameworkCore;
 global using Npgsql;
 global using BlazorEComerce.Server.Data;
+global using BlazorEComerce.Server.Services;
+global using BlazorEComerce.Server.Services.ProductService;
 using Microsoft.AspNetCore.ResponseCompression;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
