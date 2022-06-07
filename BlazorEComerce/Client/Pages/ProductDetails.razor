@@ -1,9 +1,9 @@
 ﻿@page "/product/{id:int}"
-@inject IProductService productService
+@inject IProductService ProductService
 
 @if(product == null)
 {
-    <span>Loading Product... </span>
+    <span>@message</span>
 }
 else
 {
