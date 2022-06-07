@@ -1,6 +1,6 @@
 ﻿namespace BlazorEComerce.Client.Services.CategoryService
 {
-    public class CategoryService : ICa1tegoryService
+    public class CategoryService : ICategoryService
     {
         
 
