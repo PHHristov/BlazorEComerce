@@ -1,6 +1,8 @@
 ﻿@page "/product/{id:int}"
 @inject IProductService ProductService
 
+<h3>ProductDetails</h3>
+
 @if(product == null)
 {
     <span>@message</span>
@@ -20,5 +22,5 @@ else
         </div>
     </div>
 }
-<h3>ProductDetails</h3>
+
 
