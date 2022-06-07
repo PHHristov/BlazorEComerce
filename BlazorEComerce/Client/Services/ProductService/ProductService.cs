@@ -11,9 +11,11 @@
 
         public List<Product> Products { get; set; } = new List<Product>();
 
+        public event Action ProductsChanged;
+
         public async Task<ServiceResponse<Product>> GetProduct(int productId)
         {
-            var result = await  _httpClient.GetFromJsonAsync<ServiceResponse<Product>>($"api/product/{productId}");
+            var result = await _httpClient.GetFromJsonAsync<ServiceResponse<Product>>($"api/product/{productId}");
             if (result == null || result.Data == null)
             {
                 result.Success = false;
@@ -24,14 +26,19 @@
 
         }
 
-        public async Task GetProducts()
+        public async Task GetProducts(string? categoryUrl = null)
         {
-            var result = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/Product");
+            var result = categoryUrl == null ?
+             await _httpClient.GetFromJsonAsync<ServiceResponse<List<Product>>>("api/product") :
+             await _httpClient.GetFromJsonAsync<ServiceResponse<List<Product>>>($"api/product/category/{categoryUrl}");
+
             if (result != null && result.Data != null)
             {
                 Products = result.Data;
             }
-            
+
+            ProductsChanged.Invoke();
+
         }
     }
 }

@@ -4,6 +4,7 @@ global using System.Net.Http.Json;
 global using BlazorEComerce.Client.Services;
 global using BlazorEComerce.Client.Services.ProductService;
 global using BlazorEComerce.Client.Services.CategoryService;
+global using Microsoft.AspNetCore.Components;
 
 using BlazorEComerce.Client;
 using Microsoft.AspNetCore.Components.Web;

@@ -5,9 +5,14 @@ namespace BlazorEComerce.Client.Shared
     {
         private static List<Product> Products = new();
 
-        protected override async Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
-            await productService.GetProducts();
+            ProductService.ProductsChanged += StateHasChanged;
+        }
+
+        public void Dispose()
+        {
+            ProductService.ProductsChanged -= StateHasChanged;
         }
 
     }
