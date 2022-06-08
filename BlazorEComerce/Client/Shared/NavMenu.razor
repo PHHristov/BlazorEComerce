@@ -1,4 +1,4 @@
-﻿@inject ICategoryService categoryService
+﻿@inject ICategoryService CategoryService
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
@@ -17,15 +17,14 @@
             </NavLink>
         </div>
 
-        @foreach(var category in categoryService.Categories)
+        @foreach (var category in CategoryService.Categories)
         {
             <div class="nav-item px-3">
-            <NavLink class="nav-link" href="@category.Url">
-                @category.Name
-            </NavLink>
-        </div>    
+                <NavLink class="nav-link" href="@category.Url">
+                    @category.Name
+                </NavLink>
+            </div>
         }
-
     </nav>
 </div>
 
@@ -41,6 +40,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await categoryService.GetCategories();
+        await CategoryService.GetCategories();
     }
 }

@@ -11,7 +11,7 @@
             _httpClient = httpClient;
         }
 
-        public List<Category> Categories { get; set; }
+        public List<Category> Categories { get; set; } = new List<Category>();
         public async Task GetCategories()
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<Category>>>("api/category");
