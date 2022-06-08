@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using BlazorECommerce.Shared;
+using Microsoft.AspNetCore.Components;
 
 namespace BlazorEComerce.Client.Pages
 {
@@ -6,6 +7,7 @@ namespace BlazorEComerce.Client.Pages
     {
         private Product? product = null;
         private string message = string.Empty;
+        private int currentTypeId = 1;
 
         [Parameter]
         public int Id { get; set; }
@@ -22,7 +24,18 @@ namespace BlazorEComerce.Client.Pages
             else
             {
                 product = result.Data;
+                if (product.Variants.Count > 0)
+                {
+                    currentTypeId = product.Variants[0].ProductTypeId;
+                }
             }
+        }
+
+        private ProductVariant GetSelectedVariants()
+        {
+            var variant = product.Variants
+                                 .FirstOrDefault(v => v.ProductTypeId == currentTypeId);
+            return variant;
         }
     }
 }
