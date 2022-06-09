@@ -75,9 +75,9 @@
                     foreach (var word in words)
                     {
                         if (word.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                            && !result.Contains(word))
+                            && !result.Contains(word.ToLower()))
                         {
-                            result.Add(word);
+                            result.Add(word.ToLower());
                         }
                     }
                 }
