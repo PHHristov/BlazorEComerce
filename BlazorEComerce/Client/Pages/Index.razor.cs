@@ -5,10 +5,20 @@ namespace BlazorEComerce.Client.Pages
     public partial class Index
     {
         [Parameter]
-        public string CategoryUrl { get; set; } = null;
+        public string? CategoryUrl { get; set; } = null;
+
+        [Parameter]
+        public string? SearchText { get; set; } = null;
         protected override async Task OnParametersSetAsync()
         {
-            await ProductService.GetProducts(CategoryUrl);
+            if (SearchText != null)
+            {
+                await ProductService.SearchProducts(SearchText);
+            }
+            else
+            {
+                await ProductService.GetProducts(CategoryUrl);
+            }
         }
     }
 }
