@@ -1,11 +1,13 @@
-﻿namespace BlazorEComerce.Server.Services
+﻿
+
+namespace BlazorEComerce.Server.Services
 {
     public interface IProductService
     {
         Task<ServiceResponse<List<Product>>> GetProductsAsync();
         Task<ServiceResponse<Product>> GetProductAsync(int productId);
         Task<ServiceResponse<List<Product>>> GetProductsByCategory(string categoryUrl);
-        Task<ServiceResponse<List<Product>>> SearchProduct(string searchText);
+        Task<ServiceResponse<ProductSearchResultDTO>> SearchProduct(string searchText, int page);
         Task<ServiceResponse<List<string>>> GetProductSearchSuggestions(string searchText);
         Task<ServiceResponse<List<Product>>> GetFeaturedProducts();
     }
