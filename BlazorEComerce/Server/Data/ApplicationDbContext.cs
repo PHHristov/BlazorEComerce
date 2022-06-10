@@ -65,7 +65,8 @@ namespace BlazorEComerce.Server.Data
                     Title = "Clean Code",
                     Description = "Even bad code can function. But if code isn't clean, it can bring a development organization to its knees. Every year countless hours and significant resources are lost because of poorly written code. But it doesn't have to be that way. Noted software expert Robert C. Martin presents a revolutionary paradigm with Clean Code: A Handbook of Agile Software Craftsmanship. Martin has teamed up with his colleagues from Object Mentor to distill their best agile practice of cleaning code “on the fly” into a book that will instill within you the values ​​of a software craftsman and make you a better programmer—but only if you work at it. What kind of work will you be doing? You'll be reading code—lots of code. And you will be challenged to think about what's right about that code, and what's wrong with it. more importantly, you will be challenged to reassess your professional values ​​and your commitment to your craft. Clean code is divided into three parts. The first describes the principles, patterns, and practices of writing clean code.",
                     ImageUrl = "https://images-eu.ssl-images-amazon.com/images/I/41xShlnTZTL._SX198_BO1,204,203,200_QL40_ML2_.jpg",
-                    CategoryId = 1
+                    CategoryId = 1,
+                    Featured = true
                 },
                 new Product
                 {
@@ -107,6 +108,7 @@ namespace BlazorEComerce.Server.Data
                     Title = "Half-Life 2",
                     Description = "Half-Life 2 is a 2004 first-person shooter game developed and published by Valve. Like the original Half-Life, it combines shooting, puzzles, and storytelling, and adds features such as vehicles and physics-based gameplay.",
                     ImageUrl = "https://upload.wikimedia.org/wikipedia/en/2/25/Half-Life_2_cover.jpg",
+                    Featured = true
 
                 },
                 new Product
@@ -124,6 +126,7 @@ namespace BlazorEComerce.Server.Data
                     Title = "Day of the Tentacle",
                     Description = "Day of the Tentacle, also known as Maniac Mansion II: Day of the Tentacle, is a 1993 graphic adventure game developed and published by LucasArts. It is the sequel to the 1987 game Maniac Mansion.",
                     ImageUrl = "https://upload.wikimedia.org/wikipedia/en/7/79/Day_of_the_Tentacle_artwork.jpg",
+                    Featured = true
                 },
                 new Product
                 {

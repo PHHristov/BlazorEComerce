@@ -9,6 +9,16 @@
             _context = context;
         }
 
+        public async Task<ServiceResponse<List<Product>>> GetFeaturedProducts()
+        {
+            var result = await _context.Products
+                                       .Where(p => p.Featured == true)
+                                       .Include(p => p.Variants)
+                                       .ToListAsync();
+
+            return new ServiceResponse<List<Product>> { Data = result };
+        }
+
         public async Task<ServiceResponse<Product>> GetProductAsync(int productId)
         {
             var response = new ServiceResponse<Product>();
