@@ -1,5 +1,6 @@
 global using BlazorEComerce.Shared;
 global using BlazorEComerce.Shared.Models;
+global using BlazorEComerce.Shared.Models.DTO;
 global using System.Net.Http.Json;
 global using BlazorEComerce.Client.Services;
 global using BlazorEComerce.Client.Services.ProductService;
