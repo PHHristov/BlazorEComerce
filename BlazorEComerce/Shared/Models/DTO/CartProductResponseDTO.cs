@@ -14,6 +14,7 @@ namespace BlazorEComerce.Shared.Models.DTO
         public string ProductType { get; set; } = string.Empty;
         public string imageUrl { get; set; } = string.Empty;
         public decimal Price { get; set; }
+        public int Quantity { get; set; }
 
     }
 }

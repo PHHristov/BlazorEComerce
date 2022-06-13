@@ -22,7 +22,18 @@ namespace BlazorEComerce.Client.Services.CartService
             {
                 cart = new List<CartItem>();
             }
-            cart.Add(cartItem);
+
+            var sameItem = cart.Find(x => x.ProductId == cartItem.ProductId
+                                && x.ProductTypeId == cartItem.ProductTypeId);
+            if (sameItem == null)
+            {
+                cart.Add(cartItem);
+            }
+            else
+            {
+                sameItem.Quantity += cartItem.Quantity;
+            }
+            
             await _localStorageService.SetItemAsync("cart", cart);
             OnChange.Invoke();
         }
@@ -62,6 +73,23 @@ namespace BlazorEComerce.Client.Services.CartService
                 OnChange.Invoke();
             }
 
+        }
+
+        public async Task UpdateQuantity(CartProductResponseDTO product)
+        {
+            var cart = await _localStorageService.GetItemAsync<List<CartItem>>("cart");
+            if (cart == null)
+            {
+                return;
+            }
+
+            var cartItem = cart.Find(x => x.ProductId == product.ProductId
+                                && x.ProductTypeId == product.ProductTypeId);
+            if (cartItem != null)
+            {
+                cartItem.Quantity = product.Quantity;
+                await _localStorageService.SetItemAsync("cart", cart);
+            } 
         }
     }
 }

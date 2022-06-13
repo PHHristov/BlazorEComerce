@@ -29,6 +29,16 @@
             await LoadCart();
         }
 
+        private async Task UpdateQuantity(ChangeEventArgs e, CartProductResponseDTO prodcut)
+        {
+            prodcut.Quantity = int.Parse(e.Value.ToString());
+            if (prodcut.Quantity < 1)
+            {
+                prodcut.Quantity = 1;
+            }
+            await CartService.UpdateQuantity(prodcut);
+        }
+
     }
 
 }
