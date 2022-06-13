@@ -31,11 +31,22 @@ namespace BlazorEComerce.Client.Pages
             }
         }
 
-        private ProductVariant GetSelectedVariants()
+        private ProductVariant GetSelectedVariant()
         {
             var variant = product.Variants
                                  .FirstOrDefault(v => v.ProductTypeId == currentTypeId);
             return variant;
+        }
+
+        private async Task AddToCart()
+        {
+            var productVariant = GetSelectedVariant();
+            var cartItem = new CartItem
+            {
+                ProductId = productVariant.ProductId,
+                ProductTypeId = productVariant.ProductTypeId
+            };
+            await CartService.AddToCart(cartItem);
         }
     }
 }

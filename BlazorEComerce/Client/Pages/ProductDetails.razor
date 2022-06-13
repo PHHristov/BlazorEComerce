@@ -1,6 +1,6 @@
 ﻿@page "/product/{id:int}"
 @inject IProductService ProductService
-
+@inject ICartService CartService
 
 @if(product == null)
 {
@@ -26,18 +26,21 @@ else
                     </select>
                 </div>
             }
-            @if(GetSelectedVariants() != null)
+            @if(GetSelectedVariant() != null)
             {
-                @if(GetSelectedVariants().OriginalPrice > GetSelectedVariants().Price)
+                @if(GetSelectedVariant().OriginalPrice > GetSelectedVariant().Price)
                 {
                     <h6 class="text-muted original-price">
-                        $@GetSelectedVariants().OriginalPrice
+                        $@GetSelectedVariant().OriginalPrice
                     </h6>
                 }
-            }
             <h4 class="price">
-                @GetSelectedVariants().Price
+                @GetSelectedVariant().Price
             </h4>
+            }
+            <button class="btn btn-primary" @onclick="AddToCart">
+                <i class="oi oi-cart"></i>&nbsp;&nbsp;&nbsp;Add To Cart
+            </button>
         </div>
     </div>
 }
