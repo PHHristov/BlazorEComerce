@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlazorEComerce.Shared.Models.DTO
 {
-    public class CardProductResponseDTO
+    public class CartProductResponseDTO
     {
         public int ProductId { get; set; }
         public string Title { get; set; } = string.Empty;
