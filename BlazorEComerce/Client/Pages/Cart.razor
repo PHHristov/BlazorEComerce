@@ -19,8 +19,11 @@ else
                 </div>
                 <div class="name">
                     <h5><a href="/prodcut/@product.ProductId">@product.Title</a></h5>
-                    <span>@product.ProductType</span>
+                    <span>@product.ProductType</span><br/>
+                <button class="btn-delete" @onclick="@(() => 
+                    RemoveProductFromCart(product.ProductId, product.ProductTypeId))">Delete</button>
                 </div>
+                
                 <div class="cart-product-price">
                     $@product.Price
                 </div>
