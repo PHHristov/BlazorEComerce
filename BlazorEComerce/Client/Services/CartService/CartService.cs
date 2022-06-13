@@ -7,9 +7,10 @@ namespace BlazorEComerce.Client.Services.CartService
         private readonly ILocalStorageService _localStorageService;
         private readonly HttpClient _httpClient;
 
-        public CartService(ILocalStorageService localStorageService)
+        public CartService(ILocalStorageService localStorageService, HttpClient httpClient)
         {
             _localStorageService = localStorageService;
+            _httpClient = httpClient;
         }
 
         public event Action OnChange;
