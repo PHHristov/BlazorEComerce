@@ -1,7 +1,8 @@
-﻿<a href="cart" class="btn btn-info">
-    <i class="oi oi-cart"></i>
-    <span class="badge">0</span>
-</a>
-@code {
+﻿@inject ICartService CartService
+@inject ISyncLocalStorageService LocalStorage
+@implements IDisposable
 
-}
+<a href="cart" class="btn btn-info">
+    <i class="oi oi-cart"></i>
+    <span class="badge">@GetCartItemsCount()</span>
+</a>
