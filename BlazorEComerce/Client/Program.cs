@@ -7,6 +7,7 @@ global using BlazorEComerce.Client.Services.ProductService;
 global using BlazorEComerce.Client.Services.CategoryService;
 global using Microsoft.AspNetCore.Components;
 global using BlazorEComerce.Client.Services.CartService;
+global using BlazorEComerce.Client.Services.AuthService;
 global using Blazored.LocalStorage;
 
 using BlazorEComerce.Client;
@@ -22,5 +23,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 await builder.Build().RunAsync();
