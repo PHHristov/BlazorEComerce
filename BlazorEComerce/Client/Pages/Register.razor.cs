@@ -4,18 +4,20 @@
     {
         UserRegister user = new UserRegister();
 
-        string errorMessage = string.Empty;
+        string message = string.Empty;
+        string messageCssClass = string.Empty;
 
         async Task HandleRegistration()
         {
             var result = await AuthService.Register(user);
+            message = result.Message;
             if (!result.Success)
             {
-                errorMessage = result.Message;
+                messageCssClass = "text-danger";
             }
             else
             {
-                errorMessage = string.Empty;
+                messageCssClass = "text-success";
             }
         }
     }
