@@ -4,9 +4,19 @@
     {
         UserRegister user = new UserRegister();
 
-        void HandleRegistration()
+        string errorMessage = string.Empty;
+
+        async Task HandleRegistration()
         {
-            Console.WriteLine($"Register the User with Email {user.Email}");
+            var result = await AuthService.Register(user);
+            if (!result.Success)
+            {
+                errorMessage = result.Message;
+            }
+            else
+            {
+                errorMessage = string.Empty;
+            }
         }
     }
 }
