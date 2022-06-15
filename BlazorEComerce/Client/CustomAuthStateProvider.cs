@@ -10,9 +10,10 @@ namespace BlazorEComerce.Client
         private readonly ILocalStorageService _localStorageService;
         private readonly HttpClient _httpClient;
 
-        public CustomAuthStateProvider(ILocalStorageService localStorageService)
+        public CustomAuthStateProvider(ILocalStorageService localStorageService, HttpClient httpClient)
         {
             _localStorageService = localStorageService;
+            _httpClient = httpClient;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -28,7 +29,7 @@ namespace BlazorEComerce.Client
                 try
                 {
                     identity = new ClaimsIdentity(ParseClaimsFromJwt(authToken), "jwt");
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer ", authToken.Replace("\"", ""));
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken.Replace("\"", ""));
                 }
                 catch 
                 {

@@ -11,6 +11,8 @@
             {
                 errorMessage = string.Empty;
                 await LocalStorage.SetItemAsync("authToken", result.Data);
+
+                await AuthenticationStateProvider.GetAuthenticationStateAsync();
                 NavigationManager.NavigateTo("");
             }
             else
