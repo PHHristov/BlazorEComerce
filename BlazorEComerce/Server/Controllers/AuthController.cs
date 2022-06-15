@@ -44,7 +44,7 @@ namespace BlazorEComerce.Server.Controllers
             return Ok(response);
         }
 
-        [HttpPost("cahnge-password"), Authorize]
+        [HttpPost("change-password"), Authorize]
         public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword([FromBody] string newPassword)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -120,8 +120,8 @@ namespace BlazorEComerce.Server.Services.AuthService
             }
 
             CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
-            user.PasswordSalt = passwordSalt;
             user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
 
             await _context.SaveChangesAsync();
             return new ServiceResponse<bool>
