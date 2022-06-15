@@ -1,4 +1,7 @@
 ﻿@page "/login"
+@inject IAuthService AuthService
+@inject  ILocalStorageService LocalStorage
+@inject NavigationManager NavigationManager
 
 <PageTitle>Login</PageTitle>
 
@@ -18,3 +21,6 @@
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
 </EditForm>
+<div class="text-danger">
+    <span>@errorMessage</span>
+</div>

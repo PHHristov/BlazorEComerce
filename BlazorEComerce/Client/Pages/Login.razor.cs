@@ -2,10 +2,21 @@
 {
     public partial class Login
     {
+        private string errorMessage = string.Empty;
         private UserLogin user = new UserLogin();
         private async Task HandleLogin()
         {
-            Console.WriteLine("Log me in !!!");
+            var result = await AuthService.Login(user);
+            if (result.Success)
+            {
+                errorMessage = string.Empty;
+                await LocalStorage.SetItemAsync("authToken", result.Data);
+                NavigationManager.NavigateTo("");
+            }
+            else
+            {
+                errorMessage = result.Message;
+            }
         }
     }
 }
