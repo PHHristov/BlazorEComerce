@@ -1,14 +1,19 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace BlazorEComerce.Server.Services.AuthService
 {
     public class AuthService : IAuthService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public AuthService(ApplicationDbContext context)
+        public AuthService(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task<ServiceResponse<int>> Register(User user, string password)
@@ -32,7 +37,7 @@ namespace BlazorEComerce.Server.Services.AuthService
         public async Task<ServiceResponse<string>> Login(string email, string password)
         {
             var response = new ServiceResponse<string>();
-            var user = await _context.Users.Where( u => u.Email.ToLower().Equals(email.ToLower()) );
+            var user = await _context.Users.FirstOrDefaultAsync( u => u.Email.ToLower().Equals(email.ToLower()));
             if(user == null)
             {
                 response.Success = false;
@@ -45,7 +50,7 @@ namespace BlazorEComerce.Server.Services.AuthService
             }
             else
             {
-                response.Data = "token";
+                response.Data = CreateToken(user);
             }
 
             return response;
@@ -78,6 +83,28 @@ namespace BlazorEComerce.Server.Services.AuthService
                     hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));  
                 return computeHash.SequenceEqual(passwordHash);
             }
+        }
+
+        private string CreateToken(User user)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), 
+                new Claim(ClaimTypes.Name, user.Email),
+            };
+
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8
+                                                     .GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: creds);
+
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            return jwt;
+                
         }
     }
 }
