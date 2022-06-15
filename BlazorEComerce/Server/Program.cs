@@ -9,6 +9,8 @@ global using BlazorEComerce.Server.Services.CategoryService;
 global using BlazorEComerce.Server.Services.CartService;
 global using BlazorEComerce.Server.Services.AuthService;
 global using BlazorEComerce.Shared.Models.DTO;
+global using Microsoft.AspNetCore.Components.Authorization;
+
 using Microsoft.AspNetCore.ResponseCompression;
 
 
@@ -25,6 +27,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
 
 var app = builder.Build();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
