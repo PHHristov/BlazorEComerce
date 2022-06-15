@@ -29,6 +29,15 @@ namespace BlazorEComerce.Server.Services.AuthService
 
         }
 
+        public async Task<ServiceResponse<string>> Login(string email, string password)
+        {
+            var response = new ServiceResponse<string>
+            {
+                Data = "token"
+            };
+
+            return response;
+        }
         public async Task<bool> UserExists(string email)
         {
             if (await _context.Users.AnyAsync(user => user.Email.ToLower()
