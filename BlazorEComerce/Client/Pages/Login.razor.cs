@@ -24,8 +24,8 @@ namespace BlazorEComerce.Client.Pages
             {
                 errorMessage = string.Empty;
                 await LocalStorage.SetItemAsync("authToken", result.Data);
-
                 await AuthenticationStateProvider.GetAuthenticationStateAsync();
+                await CartService.StoreCartItems(true);
                 NavigationManager.NavigateTo(returnUrl);
             }
             else
