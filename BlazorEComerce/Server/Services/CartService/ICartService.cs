@@ -7,5 +7,6 @@
         Task<ServiceResponse<int>> GetCartItemsCount();
         Task<ServiceResponse<List<CartProductResponseDTO>>> GetDbCartProducts();
         Task<ServiceResponse<bool>> AddToCart(CartItem cartItem);
+        Task<ServiceResponse<bool>> UpdateQuantity(CartItem cartItem);
     }
 }

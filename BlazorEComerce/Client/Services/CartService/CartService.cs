@@ -112,19 +112,33 @@ namespace BlazorEComerce.Client.Services.CartService
 
         public async Task UpdateQuantity(CartProductResponseDTO product)
         {
-            var cart = await _localStorageService.GetItemAsync<List<CartItem>>("cart");
-            if (cart == null)
+            if ( await IsUserAuthenticated())
             {
-                return;
+                var request = new CartItem
+                {
+                    ProductId = product.ProductId,
+                    Quantity = product.Quantity,
+                    ProductTypeId = product.ProductTypeId,
+                };
+                await _httpClient.PutAsJsonAsync("api/cart/update-quantity", request);
             }
-
-            var cartItem = cart.Find(x => x.ProductId == product.ProductId
-                                && x.ProductTypeId == product.ProductTypeId);
-            if (cartItem != null)
+            else
             {
-                cartItem.Quantity = product.Quantity;
-                await _localStorageService.SetItemAsync("cart", cart);
-            } 
+                var cart = await _localStorageService.GetItemAsync<List<CartItem>>("cart");
+                if (cart == null)
+                {
+                    return;
+                }
+
+                var cartItem = cart.Find(x => x.ProductId == product.ProductId
+                                    && x.ProductTypeId == product.ProductTypeId);
+                if (cartItem != null)
+                {
+                    cartItem.Quantity = product.Quantity;
+                    await _localStorageService.SetItemAsync("cart", cart);
+                }
+            }
+            
         }
 
         public async Task GetCartItemsCount()
