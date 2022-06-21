@@ -8,6 +8,7 @@ global using BlazorEComerce.Server.Services.ProductService;
 global using BlazorEComerce.Server.Services.CategoryService;
 global using BlazorEComerce.Server.Services.CartService;
 global using BlazorEComerce.Server.Services.AuthService;
+global using BlazorEComerce.Server.Services.OrderService;
 global using BlazorEComerce.Shared.Models.DTO;
 global using Microsoft.AspNetCore.Components.Authorization;
 
@@ -28,6 +29,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
