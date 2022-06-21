@@ -65,7 +65,7 @@ namespace BlazorEComerce.Server.Services.CartService
             cartItems.ForEach(cartItem => cartItem.UserId = GetUserId()); 
             _context.CartItems.AddRange(cartItems);
             await _context.SaveChangesAsync();
-            return await GetCartProducts(await _context.CartItems.Where(ci => ci.UserId == GetUserId()).ToListAsync());  
+            return await GetDbCartProducts();
         }
 
         public async Task<ServiceResponse<int>> GetCartItemsCount()
@@ -80,6 +80,13 @@ namespace BlazorEComerce.Server.Services.CartService
                 Data = count
             };
 
+        }
+
+        public async Task<ServiceResponse<List<CartProductResponseDTO>>> GetDbCartProducts()
+        {
+            return await GetCartProducts(await _context.CartItems
+                                                       .Where(ci => ci.UserId == GetUserId())
+                                                       .ToListAsync());
         }
     }
 }
