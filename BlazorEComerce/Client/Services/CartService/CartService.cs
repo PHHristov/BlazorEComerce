@@ -79,20 +79,27 @@ namespace BlazorEComerce.Client.Services.CartService
 
         public async Task RemoveProductFromCart(int productId, int productTypeId)
         {
-            var cart = await _localStorageService.GetItemAsync<List<CartItem>>("cart");
-            if (cart == null)
+            if (await IsUserAuthenticated())
             {
-                return;
+                await _httpClient.DeleteAsync($"api/cart/{productId}/{productTypeId}"); 
             }
-
-            var cartItem = cart.Find(x => x.ProductId == productId && x.ProductTypeId == productTypeId);
-            if (cartItem != null)
+            else
             {
-                cart.Remove(cartItem);
-                await _localStorageService.SetItemAsync("cart", cart);
-                await GetCartItemsCount();
-            }
+                var cart = await _localStorageService.GetItemAsync<List<CartItem>>("cart");
+                if (cart == null)
+                {
+                    return;
+                }
 
+                var cartItem = cart.Find(x => x.ProductId == productId && x.ProductTypeId == productTypeId);
+                if (cartItem != null)
+                {
+                    cart.Remove(cartItem);
+                    await _localStorageService.SetItemAsync("cart", cart);
+                 
+                }
+            }
+            await GetCartItemsCount();
         }
 
         public async Task StoreCartItems(bool emptyLocalCart = false)
