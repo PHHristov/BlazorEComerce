@@ -6,16 +6,14 @@ namespace BlazorEComerce.Server.Services.OrderService
     {
         private readonly ApplicationDbContext _context;
         private readonly ICartService _cartService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public OrderService(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, ICartService cartService)
+        private readonly IAuthService _authService;
+        public OrderService(ApplicationDbContext context, ICartService cartService, IAuthService authService)
         {
             _context = context;
-            _httpContextAccessor = httpContextAccessor;
             _cartService = cartService;
+            _authService = authService;
         }
 
-        private int GetUserId() => int.Parse(_httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         public async Task<ServiceResponse<bool>> PlaceOrder()
         {
@@ -35,7 +33,7 @@ namespace BlazorEComerce.Server.Services.OrderService
 
             var order = new Order
             {
-                UserId = GetUserId(),
+                UserId = _authService.GetUserId(),
                 OrderDate = DateTime.Now,
                 TotalPrice = totalPrice,
                 OrderItems = orderItems
@@ -44,7 +42,7 @@ namespace BlazorEComerce.Server.Services.OrderService
             _context.Orders.Add(order);
 
             _context.CartItems.RemoveRange(_context.CartItems
-                                                   .Where(ci => ci.UserId == GetUserId()));
+                                                   .Where(ci => ci.UserId == _authService.GetUserId()));
             await _context.SaveChangesAsync();
 
 
