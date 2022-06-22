@@ -4,9 +4,11 @@
     {
         List<CartProductResponseDTO> cartProducts = null;
         string message = "Loading cart ...";
+        bool orderPlaced = false;
 
         protected override async Task OnInitializedAsync()
         {
+            bool orderPlaced = false;
             await LoadCart();
         }
 
@@ -40,6 +42,8 @@
         private async Task PlaceOrder()
         {
             await OrderService.PlaceOrder();
+            await CartService.GetCartItemsCount();
+            orderPlaced = true;
         }
     }
 
