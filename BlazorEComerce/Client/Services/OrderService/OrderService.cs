@@ -14,6 +14,12 @@
             _httpClient = httpClient;
         }
 
+        public async Task<List<OrderOverviewRepopnseDTO>> GetOrders()
+        {
+            var result = await _httpClient.GetFromJsonAsync<ServiceResponse<List<OrderOverviewRepopnseDTO>>>("api/order");
+            return result.Data;
+        }
+
         public async Task PlaceOrder()
         {
             if (await IsUserAuthenticated())
