@@ -21,7 +21,7 @@ namespace BlazorEComerce.Server.Services.OrderService
         {
             var products = (await _cartService.GetDbCartProducts()).Data;
             decimal totalPrice = 0;
-            products.ForEach(product => totalPrice += product.Price * product.Quantity);
+            products.ForEach(product => totalPrice += (product.Price * product.Quantity));
 
             var orderItems = new List<OrderItem>();
 
@@ -46,7 +46,7 @@ namespace BlazorEComerce.Server.Services.OrderService
 
             return new ServiceResponse<bool>
             {
-                Data = true,
+                Data = true
             };
         }
 

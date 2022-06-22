@@ -37,6 +37,10 @@
             await CartService.UpdateQuantity(prodcut);
         }
 
+        private async Task PlaceOrder()
+        {
+            await OrderService.PlaceOrder();
+        }
     }
 
 }
