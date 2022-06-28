@@ -22,6 +22,49 @@ namespace BlazorEComerce.Server.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("BlazorEComerce.Shared.Models.Address", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Zip")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Addresses");
+                });
+
             modelBuilder.Entity("BlazorEComerce.Shared.Models.CartItem", b =>
                 {
                     b.Property<int>("UserId")
@@ -503,6 +546,15 @@ namespace BlazorEComerce.Server.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BlazorEComerce.Shared.Models.Address", b =>
+                {
+                    b.HasOne("BlazorEComerce.Shared.Models.User", null)
+                        .WithOne("Address")
+                        .HasForeignKey("BlazorEComerce.Shared.Models.Address", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BlazorEComerce.Shared.Models.OrderItem", b =>
                 {
                     b.HasOne("BlazorEComerce.Shared.Models.Order", "Order")
@@ -568,6 +620,12 @@ namespace BlazorEComerce.Server.Migrations
             modelBuilder.Entity("BlazorEComerce.Shared.Models.Product", b =>
                 {
                     b.Navigation("Variants");
+                });
+
+            modelBuilder.Entity("BlazorEComerce.Shared.Models.User", b =>
+                {
+                    b.Navigation("Address")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
