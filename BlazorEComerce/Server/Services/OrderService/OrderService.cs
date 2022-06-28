@@ -18,28 +18,28 @@ namespace BlazorEComerce.Server.Services.OrderService
         {
             var response = new ServiceResponse<List<OrderOverviewRepopnseDTO>>();
             var orders = await _context.Orders
-                                       .Include(o => o.OrderItems)
-                                       .ThenInclude(oi => oi.Product)
-                                       .Where(o => o.UserId == _authService.GetUserId())
-                                       .OrderByDescending(o => o.OrderDate)
-                                       .ToListAsync();
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .Where(o => o.UserId == _authService.GetUserId())
+                .OrderByDescending(o => o.OrderDate)
+                .ToListAsync();
 
             var orderResponse = new List<OrderOverviewRepopnseDTO>();
-            orders.ForEach(order => orderResponse.Add(new OrderOverviewRepopnseDTO
+            orders.ForEach(o => orderResponse.Add(new OrderOverviewRepopnseDTO
             {
-                Id = order.Id,
-                OrderDate = order.OrderDate,
-                TotalPrice = order.TotalPrice,
-                Product = order.OrderItems.Count > 1 ?
-                          $"{order.OrderItems.First().Product.Title} and " +
-                          $"{order.OrderItems.Count - 1} more .." :
-                          order.OrderItems.First().Product.Title,
-                ProductImageUrl = order.OrderItems.First().Product.ImageUrl
+                Id = o.Id,
+                OrderDate = o.OrderDate,
+                TotalPrice = o.TotalPrice,
+                Product = o.OrderItems.Count > 1 ?
+                    $"{o.OrderItems.First().Product.Title} and" +
+                    $" {o.OrderItems.Count - 1} more..." :
+                    o.OrderItems.First().Product.Title,
+                ProductImageUrl = o.OrderItems.First().Product.ImageUrl
             }));
 
             response.Data = orderResponse;
-            return response;
 
+            return response;
         }
 
         public async Task<ServiceResponse<bool>> PlaceOrder()
