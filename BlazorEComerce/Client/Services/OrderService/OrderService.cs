@@ -30,7 +30,7 @@
         {
             if (await IsUserAuthenticated())
             {
-                var result = await _httpClient.PostAsync("api/paymnet/checkout", null);
+                var result = await _httpClient.PostAsync("api/payment/checkout", null);
                 var url = await  result.Content.ReadAsStringAsync();
                 return url;
             }

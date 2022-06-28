@@ -9,7 +9,6 @@ global using Microsoft.AspNetCore.Components;
 global using BlazorEComerce.Client.Services.CartService;
 global using BlazorEComerce.Client.Services.AuthService;
 global using BlazorEComerce.Client.Services.OrderService;
-global using BlazorEComerce.Client.Services.PaymentService;
 global using Microsoft.AspNetCore.Components.Authorization;
 global using Blazored.LocalStorage;
 
@@ -28,7 +27,6 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddOptions();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>(); 

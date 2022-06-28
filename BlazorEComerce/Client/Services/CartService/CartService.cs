@@ -8,10 +8,11 @@ namespace BlazorEComerce.Client.Services.CartService
         private readonly HttpClient _httpClient;
         private readonly IAuthService _authService;
 
-        public CartService(ILocalStorageService localStorageService, HttpClient httpClient)
+        public CartService(ILocalStorageService localStorageService, HttpClient httpClient, IAuthService authService)
         {
             _localStorageService = localStorageService;
             _httpClient = httpClient;
+            _authService = authService;
         }
 
         public event Action OnChange;
