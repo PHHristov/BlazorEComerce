@@ -22,9 +22,16 @@ namespace BlazorEComerce.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<OrderOverviewRepopnseDTO>>>> GetOrders()
+        public async Task<ActionResult<ServiceResponse<List<OrderOverviewResponseDTO>>>> GetOrders()
         {
             var result = await _orderService.GetOrders();
+            return Ok(result);
+        }
+
+        [HttpGet("{orderId}")]
+        public async Task<ActionResult<ServiceResponse<OrderDetailsResponseDTO>>> GetOrderDetails(int orderId)
+        {
+            var result = await _orderService.GetOrderDetails(orderId);
             return Ok(result);
         }
     }

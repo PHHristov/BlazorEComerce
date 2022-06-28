@@ -14,9 +14,9 @@ namespace BlazorEComerce.Server.Services.OrderService
             _authService = authService;
         }
 
-        public async Task<ServiceResponse<List<OrderOverviewRepopnseDTO>>> GetOrders()
+        public async Task<ServiceResponse<List<OrderOverviewResponseDTO>>> GetOrders()
         {
-            var response = new ServiceResponse<List<OrderOverviewRepopnseDTO>>();
+            var response = new ServiceResponse<List<OrderOverviewResponseDTO>>();
             var orders = await _context.Orders
                 .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.Product)
@@ -24,8 +24,8 @@ namespace BlazorEComerce.Server.Services.OrderService
                 .OrderByDescending(o => o.OrderDate)
                 .ToListAsync();
 
-            var orderResponse = new List<OrderOverviewRepopnseDTO>();
-            orders.ForEach(o => orderResponse.Add(new OrderOverviewRepopnseDTO
+            var orderResponse = new List<OrderOverviewResponseDTO>();
+            orders.ForEach(o => orderResponse.Add(new OrderOverviewResponseDTO
             {
                 Id = o.Id,
                 OrderDate = o.OrderDate,
@@ -38,6 +38,48 @@ namespace BlazorEComerce.Server.Services.OrderService
             }));
 
             response.Data = orderResponse;
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<OrderDetailsResponseDTO>> GetOrderDetails(int orderId)
+        {
+            var response = new ServiceResponse<OrderDetailsResponseDTO>();
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.ProductType)
+                .Where(o => o.UserId == _authService.GetUserId() && o.Id == orderId)
+                .OrderByDescending(o => o.OrderDate)
+                .FirstOrDefaultAsync();
+
+            if (order == null)
+            {
+                response.Success = false;
+                response.Message = "Order not found.";
+                return response;
+            }
+
+            var orderDetailsResponse = new OrderDetailsResponseDTO
+            {
+                OrderDate = order.OrderDate,
+                TotalPrice = order.TotalPrice,
+                Products = new List<OrderDetailsProductResponseDTO>()
+            };
+
+            order.OrderItems.ForEach(item =>
+            orderDetailsResponse.Products.Add(new OrderDetailsProductResponseDTO
+            {
+                ProductId = item.ProductId,
+                ImageUrl = item.Product.ImageUrl,
+                ProductType = item.ProductType.Name,
+                Quantity = item.Quantity,
+                Title = item.Product.Title,
+                TotalPrice = item.TotalPrice
+            }));
+
+            response.Data = orderDetailsResponse;
 
             return response;
         }

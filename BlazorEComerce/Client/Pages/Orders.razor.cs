@@ -2,7 +2,7 @@
 {
     public partial class Orders
     {
-        List<OrderOverviewRepopnseDTO> orders = null;
+        List<OrderOverviewResponseDTO> orders = null;
 
         protected override async Task OnInitializedAsync()
         {

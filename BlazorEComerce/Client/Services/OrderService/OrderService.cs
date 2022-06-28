@@ -14,9 +14,9 @@
             _httpClient = httpClient;
         }
 
-        public async Task<List<OrderOverviewRepopnseDTO>> GetOrders()
+        public async Task<List<OrderOverviewResponseDTO>> GetOrders()
         {
-            var result = await _httpClient.GetFromJsonAsync<ServiceResponse<List<OrderOverviewRepopnseDTO>>>("api/order");
+            var result = await _httpClient.GetFromJsonAsync<ServiceResponse<List<OrderOverviewResponseDTO>>>("api/order");
             return result.Data;
         }
 
