@@ -6,20 +6,19 @@ namespace BlazorEComerce.Client.Services.CartService
     {
         private readonly ILocalStorageService _localStorageService;
         private readonly HttpClient _httpClient;
-        private readonly AuthenticationStateProvider _authStateProvider;
+        private readonly IAuthService _authService;
 
-        public CartService(ILocalStorageService localStorageService, HttpClient httpClient, AuthenticationStateProvider authenticationStateProvider)
+        public CartService(ILocalStorageService localStorageService, HttpClient httpClient)
         {
             _localStorageService = localStorageService;
             _httpClient = httpClient;
-            _authStateProvider = authenticationStateProvider;
         }
 
         public event Action OnChange;
 
         public async Task AddToCart(CartItem cartItem)
         {
-            if (await IsUserAuthenticated())
+            if (await _authService.IsUserAuthenticated())
             {
                 await _httpClient.PostAsJsonAsync("api/cart/add", cartItem);
             }
@@ -48,15 +47,9 @@ namespace BlazorEComerce.Client.Services.CartService
             await GetCartItemsCount();
         }
 
-        private async Task<bool> IsUserAuthenticated()
-        {
-            return (await _authStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
-        }
-
-
         public async Task<List<CartProductResponseDTO>> GetCartProducts()
         {
-            if (await IsUserAuthenticated())
+            if (await _authService.IsUserAuthenticated())
             {
                 var response = await _httpClient.GetFromJsonAsync<ServiceResponse<List<CartProductResponseDTO>>>("api/cart");
                 return response.Data;
@@ -79,7 +72,7 @@ namespace BlazorEComerce.Client.Services.CartService
 
         public async Task RemoveProductFromCart(int productId, int productTypeId)
         {
-            if (await IsUserAuthenticated())
+            if (await _authService.IsUserAuthenticated())
             {
                 await _httpClient.DeleteAsync($"api/cart/{productId}/{productTypeId}"); 
             }
@@ -119,7 +112,7 @@ namespace BlazorEComerce.Client.Services.CartService
 
         public async Task UpdateQuantity(CartProductResponseDTO product)
         {
-            if ( await IsUserAuthenticated())
+            if ( await _authService.IsUserAuthenticated())
             {
                 var request = new CartItem
                 {
@@ -150,7 +143,7 @@ namespace BlazorEComerce.Client.Services.CartService
 
         public async Task GetCartItemsCount()
         {
-            if (await IsUserAuthenticated())
+            if (await _authService.IsUserAuthenticated())
             {
                 var result = await _httpClient.GetFromJsonAsync<ServiceResponse<int>>("api/cart/count");
                 var count = result.Data;
