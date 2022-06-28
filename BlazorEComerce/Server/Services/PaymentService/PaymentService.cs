@@ -41,6 +41,11 @@ namespace BlazorEComerce.Server.Services.PaymentService
             var options = new SessionCreateOptions
             {
                 CustomerEmail = _authService.GetUserEmail(),
+                ShippingAddressCollection = 
+                  new SessionShippingAddressCollectionOptions
+                  {
+                      AllowedCountries = new List<string> { "US"}
+                  },
                 PaymentMethodTypes = new List<string>
                 {
                     "card"
