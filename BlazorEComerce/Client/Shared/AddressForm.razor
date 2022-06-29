@@ -7,21 +7,16 @@
 else if(!editAddress)
 {
     <p>
-        <span>@address.FirstName @address.LastName</span>
-        <span>@address.Street</span>
-        <span>@address.City , @address.State, @address.Zip</span>
-        <span>@address.Country</span>
+        <span>@address.FirstName @address.LastName</span><br />
+        <span>@address.Street</span><br />
+        <span>@address.City , @address.State, @address.Zip</span><br />
+        <span>@address.Country</span><br />
     </p>
     <button @onclick="EditAddress" class="btn btn-primary">Edit</button>
 }
 else
 {
     <EditForm Model="address" OnSubmit="SubmitAddress">
-        <div class="mb-3">
-            <label for="firstname">First Name</label>
-            <InputText id="firstname"  @bind-Value="address.FirstName" class="form-control" />
-        </div>
-
         <div class="mb-3">
             <label for="firstname">First Name</label>
             <InputText id="firstname"  @bind-Value="address.FirstName" class="form-control" />

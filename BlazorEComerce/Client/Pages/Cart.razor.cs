@@ -4,10 +4,11 @@
     {
         List<CartProductResponseDTO> cartProducts = null;
         string message = "Loading cart ...";
+        bool isAuthernticated = false;
 
         protected override async Task OnInitializedAsync()
         {
-            bool orderPlaced = false;
+            isAuthernticated = await AuthService.IsUserAuthenticated();
             await LoadCart();
         }
 
