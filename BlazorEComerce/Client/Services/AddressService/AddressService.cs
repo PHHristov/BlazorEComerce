@@ -16,7 +16,7 @@
                            .ReadFromJsonAsync<ServiceResponse<Address>>().Result.Data;
         }
 
-        public async Task<Address> GetAddressAsync()
+        public async Task<Address> GetAddress()
         {
             var response = await _httpClient.GetFromJsonAsync<ServiceResponse<Address>>("api/address");
             return response.Data;
