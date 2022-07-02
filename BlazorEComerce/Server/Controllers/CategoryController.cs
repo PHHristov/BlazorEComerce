@@ -30,7 +30,7 @@ namespace BlazorEComerce.Server.Controllers
             return Ok(result);
         }
 
-        [HttpDelete]
+        [HttpDelete("admin/{id}"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<Category>>>> DeleteCategory(int id)
         {
             var result = await _categoryService.DeleteCategory(id);
