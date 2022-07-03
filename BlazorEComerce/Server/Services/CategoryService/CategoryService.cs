@@ -44,12 +44,15 @@
                     Message = "Category not found."
                 };
             }
+
             dbCategory.Name = category.Name;
             dbCategory.Url = category.Url;
             dbCategory.Visible = category.Visible;
 
             await _context.SaveChangesAsync();
+
             return await GetAdminCategories();
+
         }
 
         public async Task<ServiceResponse<List<Category>>> DeleteCategory(int id)

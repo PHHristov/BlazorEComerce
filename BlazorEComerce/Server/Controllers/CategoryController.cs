@@ -37,7 +37,7 @@ namespace BlazorEComerce.Server.Controllers
             return Ok(result);
         }
 
-        [HttpPut("admin"), Authorize(Roles ="Admin")]
+        [HttpPut("admin"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<List<Category>>>> UpdateCategory(Category category)
         {
             var result = await _categoryService.UpdateCategory(category);

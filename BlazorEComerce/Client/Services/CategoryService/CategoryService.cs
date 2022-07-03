@@ -67,12 +67,10 @@
 
         public async Task UpdateCategory(Category category)
         {
-            var response = await _httpClient.PutAsJsonAsync("api/category/admin", category);
+            var response = await _httpClient.PutAsJsonAsync("api/Category/admin", category);
             AdminCategories = (await response.Content
-                                             .ReadFromJsonAsync<ServiceResponse<List<Category>>>()).Data;
-
+                .ReadFromJsonAsync<ServiceResponse<List<Category>>>()).Data;
             await GetCategories();
-
             OnChange.Invoke();
         }
     }
