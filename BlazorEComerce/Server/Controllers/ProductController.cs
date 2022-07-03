@@ -22,14 +22,14 @@ namespace BlazorEComerce.Server.Controllers
             return Ok(result);
         }
 
-        [HttpPost("admin"), Authorize(Roles = "Admin")]
+        [HttpPost, Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<Product>>> CreateProduct(Product product)
         {
             var result = await _productService.CreateProduct(product);
             return Ok(result);
         }
 
-        [HttpPut("admin"), Authorize(Roles = "Admin")]
+        [HttpPut, Authorize(Roles = "Admin")]
         public async Task<ActionResult<ServiceResponse<Product>>> UpdateProduct(Product product)
         {
             var result = await _productService.UpdateProduct(product);
