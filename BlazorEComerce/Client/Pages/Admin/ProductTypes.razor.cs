@@ -7,6 +7,12 @@
         protected override async Task OnInitializedAsync()
         {
             await ProductTypeService.GetProductTypes();
+            ProductTypeService.OnChange += StateHasChanged;
+        }
+
+        public void Dispose()
+        {
+            ProductTypeService.OnChange -= StateHasChanged;
         }
 
         private void EditProductType(ProductType productType)
@@ -18,12 +24,20 @@
 
         private void CreateNewProductType()
         {
-
+            editingProductType = ProductTypeService.CreateNewProductType();
         }
 
-        private void UpdateProuctType()
+        private async void UpdateProuctType()
         {
-
+            if (editingProductType.IsNew)
+            {
+                await ProductTypeService.AddProductType(editingProductType);
+            }
+            else
+            {
+                await ProductTypeService.UpdateProductType(editingProductType);
+            }
+            editingProductType = new ProductType();
         }
     }
 }
