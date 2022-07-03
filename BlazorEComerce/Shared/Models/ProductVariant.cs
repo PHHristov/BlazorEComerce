@@ -30,4 +30,3 @@ namespace BlazorECommerce.Shared
         public bool IsNew { get; set; } = false;
     }
 }
-}
