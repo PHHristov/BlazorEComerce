@@ -3,10 +3,12 @@
     public class ProductService : IProductService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProductService(ApplicationDbContext context)
+        public ProductService(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ServiceResponse<List<Product>>> GetAdminProducts()
@@ -38,10 +40,26 @@
         public async Task<ServiceResponse<Product>> GetProductAsync(int productId)
         {
             var response = new ServiceResponse<Product>();
-            var product = await _context.Products
-                                        .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
+            Product product = null;
+
+            if (_httpContextAccessor.HttpContext.User.IsInRole("Admin"))
+            {
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+                product = await _context.Products
+                                        .Include(p => p.Variants.Where(v => !v.Deleted))
                                         .ThenInclude(v => v.ProductType)
-                                        .FirstOrDefaultAsync(p => p.Id == productId && !p.Deleted && p.Visible) ;
+                                        .FirstOrDefaultAsync(p => p.Id == productId && !p.Deleted);
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+            }
+            else
+            {
+
+
+                product = await _context.Products
+                                           .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
+                                           .ThenInclude(v => v.ProductType)
+                                           .FirstOrDefaultAsync(p => p.Id == productId && !p.Deleted && p.Visible);
+            }
             if (product == null)
             {
                 response.Success = false;

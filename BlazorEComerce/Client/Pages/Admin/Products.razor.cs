@@ -9,7 +9,12 @@
 
         void EditProduct(int productId)
         {
+            NavigationManager.NavigateTo($"admin/product/{productId}");
+        }
 
+        void CreateProduct()
+        {
+            NavigationManager.NavigateTo("admin/product");
         }
     }
 }
