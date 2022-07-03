@@ -1,4 +1,5 @@
 ﻿using BlazorECommerce.Shared;
+using Microsoft.JSInterop;
 
 namespace BlazorEComerce.Client.Pages.Admin
 {
@@ -73,6 +74,17 @@ namespace BlazorEComerce.Client.Pages.Admin
                 product.IsNew = false;
                 product = await ProductService.UpdateProduct(product);
                 NavigationManager.NavigateTo($"admin/product/{product.Id}", true);
+            }
+        }
+
+        async void DeleteProduct()
+        {
+            bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm",
+                $"Do you really want to delete '{product.Title}'?");
+            if (confirmed)
+            {
+                await ProductService.DeleteProduct(product);
+                NavigationManager.NavigateTo("admin/products");
             }
         }
     }
