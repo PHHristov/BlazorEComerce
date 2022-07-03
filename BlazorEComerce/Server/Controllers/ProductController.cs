@@ -22,6 +22,27 @@ namespace BlazorEComerce.Server.Controllers
             return Ok(result);
         }
 
+        [HttpPost("admin"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<Product>>> CreateProduct(Product product)
+        {
+            var result = await _productService.CreateProduct(product);
+            return Ok(result);
+        }
+
+        [HttpPut("admin"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<Product>>> UpdateProduct(Product product)
+        {
+            var result = await _productService.UpdateProduct(product);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}"), Authorize(Roles = "Admin")]
+        public async Task<ActionResult<ServiceResponse<bool>>> GetAdminProducts(int id)
+        {
+            var result = await _productService.DeleteProduct(id);
+            return Ok(result);
+        }
+
         [HttpGet]
         public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProducts()
         {
