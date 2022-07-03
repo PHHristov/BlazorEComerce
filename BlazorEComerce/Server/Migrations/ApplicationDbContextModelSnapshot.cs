@@ -337,7 +337,7 @@ namespace BlazorEComerce.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductType");
+                    b.ToTable("ProductTypes");
 
                     b.HasData(
                         new

@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BlazorEComerce.Server.Migrations
 {
-    public partial class UserAddress : Migration
+    public partial class ProductTypes : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,9 @@ namespace BlazorEComerce.Server.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Url = table.Column<string>(type: "text", nullable: false)
+                    Url = table.Column<string>(type: "text", nullable: false),
+                    Visible = table.Column<bool>(type: "boolean", nullable: false),
+                    Deleted = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,7 +56,7 @@ namespace BlazorEComerce.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProductType",
+                name: "ProductTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -63,7 +65,7 @@ namespace BlazorEComerce.Server.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductType", x => x.Id);
+                    table.PrimaryKey("PK_ProductTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,7 +77,8 @@ namespace BlazorEComerce.Server.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "bytea", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Role = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -117,7 +120,8 @@ namespace BlazorEComerce.Server.Migrations
                     City = table.Column<string>(type: "text", nullable: false),
                     State = table.Column<string>(type: "text", nullable: false),
                     Zip = table.Column<string>(type: "text", nullable: false),
-                    Country = table.Column<string>(type: "text", nullable: false)
+                    Country = table.Column<string>(type: "text", nullable: false),
+                    Street = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -156,9 +160,9 @@ namespace BlazorEComerce.Server.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderItems_ProductType_ProductTypeId",
+                        name: "FK_OrderItems_ProductTypes_ProductTypeId",
                         column: x => x.ProductTypeId,
-                        principalTable: "ProductType",
+                        principalTable: "ProductTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -182,25 +186,25 @@ namespace BlazorEComerce.Server.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProductVariants_ProductType_ProductTypeId",
+                        name: "FK_ProductVariants_ProductTypes_ProductTypeId",
                         column: x => x.ProductTypeId,
-                        principalTable: "ProductType",
+                        principalTable: "ProductTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Name", "Url" },
+                columns: new[] { "Id", "Deleted", "Name", "Url", "Visible" },
                 values: new object[,]
                 {
-                    { 1, "Books", "books" },
-                    { 2, "Movies", "movies" },
-                    { 3, "Video Games", "video-games" }
+                    { 1, false, "Books", "books", true },
+                    { 2, false, "Movies", "movies", true },
+                    { 3, false, "Video Games", "video-games", true }
                 });
 
             migrationBuilder.InsertData(
-                table: "ProductType",
+                table: "ProductTypes",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
@@ -309,7 +313,7 @@ namespace BlazorEComerce.Server.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "ProductType");
+                name: "ProductTypes");
 
             migrationBuilder.DropTable(
                 name: "Categories");

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BlazorEComerce.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220628162459_UserAddress")]
-    partial class UserAddress
+    [Migration("20220703105508_ProductTypes")]
+    partial class ProductTypes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,10 @@ namespace BlazorEComerce.Server.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Street")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -94,6 +98,9 @@ namespace BlazorEComerce.Server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -101,6 +108,9 @@ namespace BlazorEComerce.Server.Migrations
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("Visible")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -110,20 +120,26 @@ namespace BlazorEComerce.Server.Migrations
                         new
                         {
                             Id = 1,
+                            Deleted = false,
                             Name = "Books",
-                            Url = "books"
+                            Url = "books",
+                            Visible = true
                         },
                         new
                         {
                             Id = 2,
+                            Deleted = false,
                             Name = "Movies",
-                            Url = "movies"
+                            Url = "movies",
+                            Visible = true
                         },
                         new
                         {
                             Id = 3,
+                            Deleted = false,
                             Name = "Video Games",
-                            Url = "video-games"
+                            Url = "video-games",
+                            Visible = true
                         });
                 });
 
@@ -323,7 +339,7 @@ namespace BlazorEComerce.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductType");
+                    b.ToTable("ProductTypes");
 
                     b.HasData(
                         new
@@ -400,6 +416,10 @@ namespace BlazorEComerce.Server.Migrations
                     b.Property<byte[]>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("bytea");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
