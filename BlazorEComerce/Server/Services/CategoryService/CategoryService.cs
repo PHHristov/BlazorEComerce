@@ -25,7 +25,7 @@
             };
         }
 
-        public async Task<ServiceResponse<List<Category>>> AddCategories(Category category)
+        public async Task<ServiceResponse<List<Category>>> AddCategory(Category category)
         {
             category.Editing = category.IsNew = false;
             _context.Categories.Add(category);
