@@ -15,5 +15,6 @@ namespace BlazorEComerce.Server.Services
         Task<ServiceResponse<Product>> UpdateProduct(Product product);
         Task<ServiceResponse<bool>> DeleteProduct(int productId);
 
+
     }
 }

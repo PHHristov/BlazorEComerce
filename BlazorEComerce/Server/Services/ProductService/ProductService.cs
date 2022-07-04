@@ -42,6 +42,7 @@
                                      .Where(p => !p.Deleted)
                                      .Include(p => p.Variants.Where(v => v.Visible))
                                      .ThenInclude(v => v.ProductType)
+                                     .Include(p => p.Images)
                                      .ToListAsync()
             };
             return response;
@@ -54,6 +55,7 @@
                 Data = await _context.Products
                     .Where(p => p.Featured && p.Visible && !p.Deleted)
                     .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
+                    .Include(p => p.Images)
                     .ToListAsync()
             };
 
@@ -71,6 +73,7 @@
                 product = await _context.Products
                                         .Include(p => p.Variants.Where(v => !v.Deleted))
                                         .ThenInclude(v => v.ProductType)
+                                        .Include(p => p.Images)
                                         .FirstOrDefaultAsync(p => p.Id == productId && !p.Deleted);
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
             }
@@ -81,6 +84,7 @@
                 product = await _context.Products
                                            .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
                                            .ThenInclude(v => v.ProductType)
+                                           .Include(p => p.Images)
                                            .FirstOrDefaultAsync(p => p.Id == productId && !p.Deleted && p.Visible);
             }
             if (product == null)
@@ -102,6 +106,7 @@
                 Data = await _context.Products
                                      .Where(p => p.Visible && !p.Deleted)
                                      .Include(p => p.Variants.Where(v => v.Visible && !v.Deleted))
+                                     .Include(p => p.Images)
                                      .ToListAsync()            
             };
             return response;
@@ -165,6 +170,7 @@
                                                  .Include(p => p.Variants)
                                                  .Skip((page - 1) * (int)pageResults)
                                                  .Take((int)pageResults)
+                                                 .Include(p => p.Images)
                                                  .ToListAsync();
 
 
@@ -183,7 +189,9 @@
 
         public async Task<ServiceResponse<Product>> UpdateProduct(Product product)
         {
-            var dbProduct = await _context.Products.FindAsync(product.Id);
+            var dbProduct = await _context.Products
+                                           .Include(p => p.Images)
+                                           .FirstOrDefaultAsync(p => p.Id == product.Id);
             if (dbProduct == null)
             {
                 return new ServiceResponse<Product> {Success = false, Message = "Product not found !" };
@@ -194,6 +202,10 @@
             dbProduct.CategoryId = product.CategoryId;
             dbProduct.Visible = product.Visible;
             dbProduct.Featured = product.Featured;
+
+            var productImages = dbProduct.Images;
+            _context.Images.RemoveRange(productImages);
+            dbProduct.Images = product.Images;
 
             foreach (var variant in product.Variants)
             {
